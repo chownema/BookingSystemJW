@@ -1,0 +1,31 @@
+{
+  "name": "wfp-app",
+  "version": "1.0.0",
+  "description": "Simple framework",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "angular-chart.js": "^1.1.1",
+    "browser-sync": "^2.18.12",
+    "gulp": "^3.9.1",
+    "node-sass": "^4.5.3"
+  },
+  "devDependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "gulp-browserify": "^0.5.1",
+    "gulp-sass": "^3.1.0",
+    "materialize-sass": "^0.98.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chownema/WFP.git"
+  },
+  "author": "miguel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chownema/WFP/issues"
+  },
+  "homepage": "https://github.com/chownema/WFP#readme"
+}
