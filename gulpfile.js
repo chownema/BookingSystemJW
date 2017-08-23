@@ -1,9 +1,15 @@
 'use strict';
 
 // Gulp objects
-var gulp = require('gulp');
-var bs = require('browser-sync').create(); // create a browser sync instance.
-var sass = require('gulp-sass');
+var gulp = require('gulp'),
+bs = require('browser-sync').create(), // create a browser sync instance.
+sass = require('gulp-sass'),
+// Browserify dependencies
+browserify = require('browserify'),
+exorcist = require('exorcist'),
+stringify = require('stringify'),
+source = require('vinyl-source-stream'),
+gutil = require('gulp-util');
 
 // Commands
 /* Sass */
@@ -39,3 +45,25 @@ gulp.task(sassSyncCmd, function () {
 gulp.task('sass:watch', function () {
   gulp.watch('./sass/**/*.scss', ['sass']);
 });
+
+// generic helper functions
+/* Generic build script to create diffrent bundles with different inputs */
+function buildApp (inputLoc, inputFile, outputLoc, outputFile) {
+    //js
+var jsBundle = browserify(inputLoc+'/'+inputFile, {
+    debug: true
+});
+return jsBundle
+    .transform(stringify, {
+    appliesTo: { includeExtensions: ['.html']},
+    minify: true
+    })
+    .bundle()
+      .on('error', err => {
+            gutil.log("Browserify Error", gutil.colors.red(err.message));
+            this.emit("end");
+        })
+    .pipe(exorcist(outputLoc+'/'+outputFile+'.map'))
+    .pipe(source(outputFile))
+    .pipe(gulp.dest(outputLoc+'/'));
+}
