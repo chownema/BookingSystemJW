@@ -26,6 +26,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.0",
     "karma-phantomjs-launcher": "^1.0.4",
+    "lodash": "^4.17.4",
     "materialize-sass": "^0.98.2",
     "stringify": "^5.1.0",
     "vinyl-source-stream": "^1.1.0"

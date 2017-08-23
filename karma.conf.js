@@ -5,7 +5,7 @@ module.exports = function (config) {
     port: '9000',
     colors: true,
     browserNoActivityTimeout: 100000,
-    logLevel : config.LOG_DEBUG,
+    // logLevel : config.LOG_DEBUG,
     files: [
       // Add helper scripts here
       './node_modules/angular/angular.js',                             // angular

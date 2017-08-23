@@ -61,6 +61,9 @@ gulp.task('test-app', function (done) {
 gulp.task('build-app', function () {
     buildApp('src/', 'index.js', 'website/JavaScript/app', 'bundle.js');
 });
+gulp.task('watch-app', function () {
+    gulp.watch(['src/**/*.js', '!app/bundle.js'], ['build-app']);
+});
 
 // generic helper functions
 /* Generic build script to create diffrent bundles with different inputs */
