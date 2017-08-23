@@ -50986,20 +50986,18 @@ var angular = require('angular');
 var lodash = require('lodash');
 // Developer defined modules
 var booking = require('./booking');
+var request = require('./request');
 
 var app = angular.module('app', [
-    booking
+    booking, request
 ]);
 
 module.exports = app;
 
-},{"./booking":7,"angular":2,"lodash":3}],5:[function(require,module,exports){
+},{"./booking":7,"./request":9,"angular":2,"lodash":3}],5:[function(require,module,exports){
 var angular = require('angular');
-
 var app = angular.module('booking.module', []);
-
 require('./booking.service');
-
 module.exports = app;
 
 },{"./booking.service":6,"angular":2}],6:[function(require,module,exports){
@@ -51007,45 +51005,83 @@ var angular = require('angular');
 var _ = require('lodash');
 var app = angular.module('booking.module');
 
-app.factory('BookingService', function () {
-    var srv = this;
+app.factory('BookingService', [
+    '$http', function ($http) {
+        var srv = this;
 
-    var _bookings = [];
+        var _bookings = [];
+        // CRUD
+        srv.addBooking = function (data) {
+            _bookings.push(data);
+        };
+        srv.addBookingList = function (data) {
+            _bookings = data;
+        };
+        srv.removeBooking = function (id) {
+            _.remove(_bookings, {
+                id: id
+            });
+        };
+        srv.editBooking = function (booking) {
+            angular.forEach(_bookings, function (item, key) {
+                if (item.id === booking.id) {
+                    _bookings[key] = booking;
+                }
+            });
+        };
+        srv.getBooking = function (id) {
+            return _.find(_bookings, { 'id': id });
+        };
+        srv.getBookingList = function () {
+            return _bookings;
+        };
 
-    srv.addBooking = function (data) {
-        _bookings.push(data);
-    };
-    srv.addBookingList = function (data) {
-        _bookings = data;
-    };
-    srv.removeBooking = function (id) {
-        _.remove(_bookings, {
-            id: id
-        });
-    };
-    srv.editBooking = function (booking) {
-        angular.forEach(_bookings, function (item, key) {
-            if (item.id === booking.id) {
-                _bookings[key] = booking;
-            }
-        });
-    };
-    srv.getBooking = function (id) {
-        return _.find(_bookings, {'id': id});
-    };
-    srv.getBookingList = function () {
-        return _bookings;
-    };
-
-    return srv;
-});
+        return srv;
+    }]);
 
 module.exports = app;
 },{"angular":2,"lodash":3}],7:[function(require,module,exports){
 module.exports = require('./booking.module').name;
-
 },{"./booking.module":5}],8:[function(require,module,exports){
 module.exports = require('./app.module').name;
 
-},{"./app.module":4}]},{},[8])
+},{"./app.module":4}],9:[function(require,module,exports){
+module.exports = require('./request.module').name;
+
+},{"./request.module":10}],10:[function(require,module,exports){
+var angular = require('angular');
+var app = angular.module('request.module', []);
+var booking = require('./request.service');
+module.exports = app;
+
+},{"./request.service":11,"angular":2}],11:[function(require,module,exports){
+var angular = require('angular');
+var app = angular.module('request.module');
+
+app.factory('RequestService', [
+    '$http', function ($http) {
+        var srv = this;
+        srv.endpoint = 'https://fbr50l67ie.execute-api.us-east-1.amazonaws.com/jwBooking';
+        // CRUD
+        srv.addRecord = function () {
+            return $http.post(srv.endpoint);
+        };     
+        srv.removeRecord = function () {
+
+        };     
+        srv.getRecord = function () {
+
+        };     
+        srv.getRecordList = function () {
+
+        };     
+        srv.getRecord = function () {
+
+        };     
+
+        return srv;
+    }]);
+
+module.exports = app;
+},{"angular":2}]},{},[8])
 //# sourceMappingURL=bundle.js.map

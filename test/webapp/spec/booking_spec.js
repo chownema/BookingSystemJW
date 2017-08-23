@@ -1,11 +1,12 @@
 describe('Booking Module', function () {
-    // var bookingService;
-    // var booking1;
 
     beforeEach(angular.mock.module('booking.module'));
+    beforeEach(angular.mock.module('request.module'));
 
-    beforeEach(inject(function (_BookingService_) {
+    beforeEach(inject(function (_BookingService_, _RequestService_, _$httpBackend_) {
         bookingService = _BookingService_;
+        requestService = _RequestService_;
+        $httpBackend = _$httpBackend_;
 
         booking1 = {id:1};
         booking2 = {id:2};
@@ -30,5 +31,14 @@ describe('Booking Module', function () {
     it('expect delete booking item', function () {
         bookingService.removeBooking(booking2.id);
         expect(bookingService.getBooking(booking2.id)).toEqual(undefined);
+    });
+
+    it('get booking from aws', function (done) {
+        var item;
+        requestService.addRecord().then(function(response) {console.log(response); item=response.data.Item;}, function(err) {console.error(err)});        
+        $httpBackend.expect('POST', requestService.endpoint).respond(200, {Item : {}});
+        expect($httpBackend.flush).not.toThrow();
+        expect(item).toEqual('item');
+        done();
     });
 });
